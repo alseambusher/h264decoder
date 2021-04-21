@@ -71,6 +71,8 @@ of consumed bytes of the input stream. It stops consuming
 bytes at frame boundaries.
   */
   ptrdiff_t parse(const unsigned char* in_data, ptrdiff_t in_size);
+  void start_skipping();
+  void stop_skipping();
   bool is_frame_available() const;
   const AVFrame& decode_frame();
 };
