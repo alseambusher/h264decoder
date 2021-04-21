@@ -103,7 +103,13 @@ const AVFrame& H264Decoder::decode_frame()
   return *frame;
 #endif
 }
+void H264Decoder::start_skipping() {
+    context->skip_frame = AVDISCARD_ALL;
+}
 
+void H264Decoder::stop_skipping() {
+    context->skip_frame = AVDISCARD_NONE;
+}
 
 ConverterRGB24::ConverterRGB24()
 {

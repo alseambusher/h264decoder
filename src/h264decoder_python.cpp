@@ -75,6 +75,8 @@ public:
   py::tuple decode_frame(const py::bytes &data_in_str);
   /* Process all the input data and return a list of all contained frames. */
   py::list  decode(const py::bytes &data_in_str);
+  py::bool_ start_skipping();
+  py::bool_ stop_skipping();
 };
 
 
@@ -161,7 +163,14 @@ py::list PyH264Decoder::decode(const py::bytes &data_in_str)
   
   return out;
 }
-
+py::bool_ PyH264Decoder::start_skipping() {
+    decoder.start_skipping();
+    return py::bool_();
+}
+py::bool_ PyH264Decoder::stop_skipping() {
+    decoder.stop_skipping();
+    return py::bool_();
+}
 
 PYBIND11_MODULE(h264decoder, m)
 {
@@ -169,6 +178,8 @@ PYBIND11_MODULE(h264decoder, m)
   py::class_<PyH264Decoder>(m, "H264Decoder")
                             .def(py::init<>())
                             .def("decode_frame", &PyH264Decoder::decode_frame)
-                            .def("decode", &PyH264Decoder::decode);
-  m.def("disable_logging", disable_logging);
+          .def("start_skipping", &PyH264Decoder::start_skipping)
+          .def("stop_skipping", &PyH264Decoder::stop_skipping)
+          .def("decode", &PyH264Decoder::decode);
+    m.def("disable_logging", disable_logging);
 }
